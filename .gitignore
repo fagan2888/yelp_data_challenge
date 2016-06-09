@@ -1,3 +1,4 @@
 # The data
 *.csv
-*pdf
+*.pdf
+*.json
