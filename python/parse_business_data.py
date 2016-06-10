@@ -14,9 +14,8 @@ with open('../data/yelp_academic_dataset_business.json', 'rb') as f:
 	bus_data = f.readlines()
 
 
-bus_data = f.readlines()
 # remove the trailing "\n" from each line
-bus_data = map(lambda x: x.rstrip(), data)
+bus_data = map(lambda x: x.rstrip(), bus_data)
 
 # put individual business JSON objects into list
 data_json = "[" + ','.join(bus_data) + "]"
