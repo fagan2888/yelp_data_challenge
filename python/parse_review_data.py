@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Parse Yelp tip data
+Parse Yelp review data
 
 @author: MariaAthena
 """
@@ -106,9 +106,9 @@ def review_vector(norm_doc_list):
 
 
 # Normalise and vectorise tip column in datafram
-output_df = bus_df[['business_id', 'user_id', 'date']]  
-output_df['tip'] = norm_corpus(bus_df.text)
-print "tip text normalised, next: vectorise"
-output_df.tip = review_vector(output_df.tip)
+output_df = bus_df[['business_id', 'user_id', 'date', 'stars', 'votes']]
+output_df['review'] = norm_corpus(bus_df.text)
+print "review text normalised, next: vectorise"
+output_df.review = review_vector(output_df.review)
 
-output_df.to_csv(open('parsed_tip_data.csv', 'wb'), index=False)
+output_df.to_csv(open('parsed_review_data.csv', 'wb'), index=False)
