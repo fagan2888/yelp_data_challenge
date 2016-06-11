@@ -97,7 +97,7 @@ def review_vector(norm_doc_list):
         
         # vectorise string
         WORD = re.compile(r'\w+')
-        review_vector = [collections.Counter(WORD.findall(word)) for word in review_list]
+        review_vector = [Counter(WORD.findall(word)) for word in review_list]
     
     
     return review_vector

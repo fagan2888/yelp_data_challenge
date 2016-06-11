@@ -17,7 +17,7 @@ from nltk.stem import SnowballStemmer
 
 
 # Read data file into a python array
-with open('../data/yelp_academic_dataset_tip.json', 'rb') as f:
+with open('../data/yelp_academic_dataset_review.json', 'rb') as f:
 	bus_data = f.readlines()
 
 # remove the trailing "\n" from each line
@@ -97,7 +97,7 @@ def review_vector(norm_doc_list):
         
         # vectorise string
         WORD = re.compile(r'\w+')
-        review_vector = [collections.Counter(WORD.findall(word)) for word in review_list]
+        review_vector = [Counter(WORD.findall(word)) for word in review_list]
     
     
     return review_vector
