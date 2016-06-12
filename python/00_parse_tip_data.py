@@ -93,10 +93,10 @@ def review_vector(norm_doc):
 
 
 # Normalise and vectorise tip column in datafram
-output_df = bus_df[['business_id', 'user_id', 'date']]
-output_df['tip'] = bus_df.text.apply(lambda x: norm_corpus(x))
+output_df = bus_df.ix[:,['business_id', 'user_id', 'date', 'text']]
+output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
-output_df.tip = output_df.tip.apply(lambda x: review_vector(x))
+output_df.text = output_df.text.apply(lambda x: review_vector(x))
 
 # Output parsed data to csv
 output_df.to_csv(open('../parsed_data/parsed_tip_data.csv', 'wb'), index=False)
