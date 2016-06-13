@@ -8,6 +8,7 @@ Parse Yelp review data
 
 import pandas as pd
 import numpy as np
+import feather
 import json
 import re
 import nltk
@@ -18,23 +19,11 @@ from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 
 
-# Read data file into a python array
-# with open('../data/yelp_academic_dataset_review.json', 'rb') as f:
-with open('../data/yelp_academic_dataset_review.json', 'rb') as f:
-    bus_data = f.readlines()
-
-# remove the trailing "\n" from each line
-bus_data = map(lambda x: x.rstrip(), bus_data)
-# put individual business JSON objects into list
-data_json = "[" + ','.join(bus_data) + "]"
-
-# Create pandas df
-bus_df = pd.read_json(data_json)
+# Read review data file into a pandas dataframe
+review_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
 
 
 ## Helper functions to normalise and vectorise text
-
-# x = nltk.collocations(text)
 
 # Convert all words to lowercase, remove punctuation, tokenise and stem
 # and remove stopwords, threshold = 10%
@@ -102,5 +91,5 @@ output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
 
-# Output parsed data to csv
-output_df.to_csv(open('../parsed_data/parsed_review_data.csv', 'wb'), index=False)
+# Output parsed data to feather format file
+feather.write_dataframe(output_df, '../parsed_data/parsed_review_data.feather')
