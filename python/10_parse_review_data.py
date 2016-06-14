@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """
 Parse Yelp review data
-
 @author: MariaAthena
 """
+# Output of this file has to be pickle otherwise dictionary/vector information lost
 
-
-import pandas as pd
-import numpy as np
-import feather
 import re
 import nltk
+import pandas as pd
+#import feather
 
 from collections import Counter
 from nltk.tokenize import RegexpTokenizer
@@ -19,8 +17,8 @@ from nltk.stem import SnowballStemmer
 
 
 # Read review data file into a pandas dataframe
-read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
-
+#read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
+read_df = pd.read_pickle('../parsed_data/filtered_review_data.pkl')
 
 ## Helper functions to normalise and vectorise text
 
@@ -85,14 +83,26 @@ def review_vector(norm_doc):
     return review_vector
 
 
-# Only keep reviews with more than 3 stars
+# Only keep businesses with more than 3 stars
 read_df = read_df[read_df.stars > 3]
 
 # Normalise and vectorise tip column in datafram
-output_df = read_df.ix[:,['business_id', 'user_id', 'date', 'stars', 'votes', 'text']]
+output_df = read_df.ix[:,['business_id', 
+                          'user_id', 
+                          'date', 
+                          'stars',
+                          'text',
+                          'city',
+                          'latitude',
+                          'longitude']]
+                          
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
-print "tip text normalised, next: vectorise"
+print "review text normalised, next: vectorise"
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
+print "review text vectorised"
 
-# Output parsed data to feather format file
-feather.write_dataframe(output_df, '../parsed_data/parsed_review_data.feather')
+output_df.to_pickle('../parsed_data/parsed_review_data.pkl')
+print 'pkl written'
+
+#feather.write_dataframe(output_df, '../parsed_data/parsed_review_data.feather')
+#print 'feather writte'

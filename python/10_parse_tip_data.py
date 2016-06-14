@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 """
 Parse Yelp tip data
-
 @author: MariaAthena
 """
 
+# Output of this file has to be pickle otherwise dictionary/vector information lost
+
+
 import pandas as pd
-import numpy as np
-import feather
-import feather
-import json
 import re
 import nltk
-import unicodedata
+import feather
 
 from collections import Counter
 from nltk.tokenize import RegexpTokenizer
@@ -22,6 +20,7 @@ from nltk.stem import SnowballStemmer
 
 # Read data file into a pandas dataframe
 read_df = feather.read_dataframe('../parsed_data/filtered_tip_data.feather', 'rb')
+#read_df = pd.read_pickle('../parsed_data/filtered_tip_data.pkl')
 
 
 ## Helper functions to normalise and vectorise text
@@ -47,7 +46,7 @@ def norm_corpus(document):
         
     # make tokenised text one string
     norm_doc = " ".join(doc_stem)
-
+    
 
     return norm_doc
 
@@ -89,13 +88,29 @@ def review_vector(norm_doc):
     
     return review_vector
 
+# Only keep businesses with more than 3 stars
+read_df = read_df[read_df.stars > 3]
+
 
 # Normalise and vectorise tip column in datafram
-output_df = read_df.ix[:,['business_id', 'user_id', 'date', 'text']]
+output_df = read_df.ix[:,['business_id', 
+                          'user_id', 
+                          'date', 
+                          'stars',
+                          'text',
+                          'city',
+                          'latitude',
+                          'longitude']]
+
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
 
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
+print "tip text vectorised"
+
+output_df.to_pickle('../parsed_data/parsed_tip_data.pkl')
+print 'pkl written'
 
 # Output parsed data to feather format file
-feather.write_dataframe(output_df, '../parsed_data/parsed_tip_data.feather')
+#feather.write_dataframe(output_df, '../parsed_data/parsed_tip_data.feather')
+

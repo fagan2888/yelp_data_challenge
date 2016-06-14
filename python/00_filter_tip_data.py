@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Filter Yelp tip data
-
 @author: MariaAthena
 """
+
+# Output of this file has to be feather because parser can't handle anything else
 
 import pandas as pd
 import feather
@@ -89,10 +90,17 @@ bus_df = pd.read_json(bus_json)
 tip_df = pd.read_json(tip_json)
 
 
+
 # Create column signifying data is 
 bus_df['food_drink'] = bus_df.categories.apply(lambda x: is_food_drink(x))
-bus_df = bus_df[['business_id', 'latitude', 'longitude', 'name', 
-'city','stars','review_count', 'food_drink']]
+bus_df = bus_df[['business_id', 
+                 'latitude', 
+                 'longitude', 
+                 'name', 
+                 'city',
+                 'stars',
+                 'review_count',
+                 'food_drink']]
 
 # Join business info onto tip data frame
 output_df = pd.merge(tip_df, 
@@ -101,10 +109,18 @@ output_df = pd.merge(tip_df,
 
 # Filter taking only data point from food_drink selling businesses
 output_df = output_df[output_df.food_drink > 0]
+output_df.drop('food_drink', axis=1, inplace=True)
+
 # Only keep data from three cities that are to be analysed
 output_df  = output_df[(
 	output_df.city == 'Montreal') | (
 	output_df.city == 'Pittsburgh') | (
 	output_df.city == 'Edinburgh')]
+ 
+
+ 
+#output_df.to_pickle('../parsed_data/filtered_tip_data.pkl')
+#print 'pkl written'
 
 feather.write_dataframe(output_df, '../parsed_data/filtered_tip_data.feather')
+print 'feather written'
