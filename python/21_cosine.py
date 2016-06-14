@@ -37,29 +37,52 @@ cosine_df =  pd.read_pickle('../parsed_data/all_parsed_data.pkl')
 
 # MONTREAL
 montreal = cosine_df[cosine_df['city']== 'Montreal']
+montreal = montreal.reset_index(drop=True)
+
 
 cosine_matrix_montreal = np.zeros((len(montreal['text']),len(montreal['text'])))
 for i in range(0,len(montreal['text'])):
     for j in range(0,len(montreal['text'])):
         cosine_matrix_montreal[i][j] = similarity(montreal['text'].values[i], montreal['text'].values[j])
 
-cosim
+montreal_matrix = pd.DataFrame(cosine_matrix_montreal)
+montreal_matrix = montreal_matrix.reset_index(drop=True)
 
+cosim_montreal = pd.concat([montreal,montreal_matrix], axis=1)
+
+cosim_montreal.to_pickle('../parsed_data/cosim_montreal.pkl')
+print 'pkl written'
+
+"""
 # EDINBURGH
 edinburgh = cosine_df[cosine_df['city']== 'Edinburgh']
+edinburgh = edinburgh.reset_index(drop=True)
+
 
 cosine_matrix_edinburgh = np.zeros((len(edinburgh['text']),len(edinburgh['text'])))
 for i in range(0,len(edinburgh['text'])):
     for j in range(0,len(edinburgh['text'])):
         cosine_matrix_edinburgh[i][j] = similarity(edinburgh['text'].values[i], edinburgh['text'].values[j])
 
-cosim
+edinburgh_matrix = pd.DataFrame(cosine_matrix_edinburgh)
+edinburgh_matrix = edinburgh_matrix.reset_index(drop=True)
+
+cosim_edinburgh = pd.concat([edinburgh,edinburgh_matrix], axis=1)
+
+
 
 # PITTSBURGH
 pittsburgh = cosine_df[cosine_df['city']== 'Pittsburgh']
+pittsburgh = pittsburgh.reset_index(drop=True)
+
 
 cosine_matrix_pittsburgh = np.zeros((len(pittsburgh['text']),len(pittsburgh['text'])))
 for i in range(0,len(pittsburgh['text'])):
     for j in range(0,len(pittsburgh['text'])):
         cosine_matrix_pittsburgh[i][j] = similarity(pittsburgh['text'].values[i], pittsburgh['text'].values[j])
-cosim
+
+pittsburgh_matrix = pd.DataFrame(cosine_matrix_pittsburgh)
+pittsburgh_matrix = pittsburgh_matrix.reset_index(drop=True)
+
+cosim_pittsburgh = pd.concat([pittsburgh,pittsburgh_matrix], axis=1)
+"""
