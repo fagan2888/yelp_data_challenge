@@ -17,5 +17,5 @@ frames = [parsed_tip, parsed_review]
 
 tip_review = pd.concat(frames)
 
-tip_review.to_pickle('../parsed_data/clean.pkl')
+tip_review.to_pickle('../parsed_data/all_parsed_data.pkl')
 print 'pkl written'
