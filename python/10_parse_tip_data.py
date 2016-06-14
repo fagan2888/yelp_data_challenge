@@ -12,6 +12,7 @@ import feather
 import json
 import re
 import nltk
+import unicodedata
 
 from collections import Counter
 from nltk.tokenize import RegexpTokenizer
@@ -29,21 +30,34 @@ read_df = feather.read_dataframe('../parsed_data/filtered_tip_data.feather', 'rb
 # and remove stopwords, threshold = 10%
 def norm_corpus(document):
 
+    
     # lowercase and remove symbols
-    tokenizer = RegexpTokenizer(r'\w+')
+    tokenizer = RegexpTokenizer(r'\w+')  
     doc_tokens = tokenizer.tokenize(document.lower())
-        
+  
+    
     # remove stopwords
     doc_tokens = [word for word in doc_tokens if word not in stopwords.words('english')]
         
     # stem words
-    stemmer = SnowballStemmer("english")
-    doc_stem = [stemmer.stem(word) for word in doc_tokens]
+    if type(doc_tokens) == unicode:
+        stemmer = SnowballStemmer("english")
+        doc_stem = [stemmer.stem(word) for word in doc_tokens]
         
-    # make tokenised text one string
-    norm_doc = " ".join(doc_stem)
-    
+        # make tokenised text one string
+        norm_doc = " ".join(doc_stem)
+
+    else:
+        norm_doc = doc_tokens
+        
+        
+   
+
+
+
     return norm_doc
+
+
 
 
 
@@ -55,6 +69,7 @@ def review_vector(norm_doc):
     # loop through each string i.e. review in the df column
     review_keyword_list = []
     doc = nltk.word_tokenize(norm_doc)
+    print doc
 
     # create tuple for each word in list: (word, tag)
     token_category = nltk.pos_tag(doc)  
@@ -81,13 +96,12 @@ def review_vector(norm_doc):
     
     return review_vector
 
-# Only keep reviews with more than 3 stars
-read_df = read_df[read_df.stars > 3]
 
 # Normalise and vectorise tip column in datafram
 output_df = read_df.ix[:,['business_id', 'user_id', 'date', 'text']]
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
+
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
 
 # Output parsed data to feather format file
