@@ -8,13 +8,10 @@ Cluster Yelp tip and review data
 
 import pandas as pd
 import numpy as np
-import pickle
-
-import matplotlib.cm as cm
-import seaborn as sns
 
 import sklearn
 from sklearn import cluster
+from sklearn.neighbors import NearestNeighbors
 from sklearn.metrics import silhouette_samples, silhouette_score
 from sklearn.decomposition import PCA
 
@@ -22,20 +19,23 @@ from scipy.spatial.distance import cdist
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
-df_montr = pickle.read('../parsed_data/cosim_montreal.feather', 'rb')
-df_pitts = pickle.read('../parsed_data/cosim_pittsburgh.feather', 'rb')
-df_edinb = pickle.read('../parsed_data/cosim_edinburgh.feather', 'rb')
+df = pd.read_pickle('../parsed_data/cosim_montreal.pkl')
+# df = pd.read_pickle('../parsed_data/cosim_pittsburgh.pkl')
+# df = pd.read_pickle('../parsed_data/cosim_edinburgh.pkl')
 
 
 # Convert the cosim columns into numpy arrays
-montr_data = np.array(df_montr.ix[:,:])
-pitts_data = np.array(df_pitts.ix[:,:])
-edinb_data = np.array(df_edinb.ix[:,:])
+data = np.array(df.ix[:,6:])
 
+# Compute the K Nearest Neighbours
+# K-Means for k=8
+n_clusters2=8
+k_means = cluster.KMeans(n_clusters=n_clusters2, init='k-means++')
+k_means.fit(data) # Computes k-means
 
-# Compute the K Nearest Neighbours for each city
+df['kmean_index'] = k_means.labels_
+# output_df = df.drop(df.ix[:,6:-1])
+output_df = df[['business_id', 'text', 'date', 'city', 'latitude', 'longitude', 'kmean_index']]
 
-
-
-
-
+# Output parsed data to feather format file
+output_df.to_pickle('../parsed_data/indexed_montreal.pkl')
