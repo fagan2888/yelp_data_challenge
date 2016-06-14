@@ -28,6 +28,9 @@ read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 
 # and remove stopwords, threshold = 10%
 def norm_corpus(document):
 
+    # unicode decode
+    document = document.decode('utf-8')
+
     # lowercase and remove symbols
     tokenizer = RegexpTokenizer(r'\w+')
     doc_tokens = tokenizer.tokenize(document.lower())
@@ -41,6 +44,7 @@ def norm_corpus(document):
         
     # make tokenised text one string
     norm_doc = " ".join(doc_stem)
+    
     
     return norm_doc
 

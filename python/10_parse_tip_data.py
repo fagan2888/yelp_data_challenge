@@ -30,7 +30,9 @@ read_df = feather.read_dataframe('../parsed_data/filtered_tip_data.feather', 'rb
 # and remove stopwords, threshold = 10%
 def norm_corpus(document):
 
-    
+    # unicode decode
+    document = document.decode('utf-8')
+
     # lowercase and remove symbols
     tokenizer = RegexpTokenizer(r'\w+')  
     doc_tokens = tokenizer.tokenize(document.lower())
@@ -40,20 +42,12 @@ def norm_corpus(document):
     doc_tokens = [word for word in doc_tokens if word not in stopwords.words('english')]
         
     # stem words
-    if type(doc_tokens) == unicode:
-        stemmer = SnowballStemmer("english")
-        doc_stem = [stemmer.stem(word) for word in doc_tokens]
+    stemmer = SnowballStemmer("english")
+    doc_stem = [stemmer.stem(word) for word in doc_tokens]
         
-        # make tokenised text one string
-        norm_doc = " ".join(doc_stem)
-
-    else:
-        norm_doc = doc_tokens
-        
-        
-   
-
-
+    # make tokenised text one string
+    norm_doc = " ".join(doc_stem)
+    
 
     return norm_doc
 

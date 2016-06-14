@@ -107,4 +107,4 @@ output_df  = output_df[(
 	output_df.city == 'Pittsburgh') | (
 	output_df.city == 'Edinburgh')]
 
-#feather.write_dataframe(output_df, '../parsed_data/filtered_tip_data.feather')
+feather.write_dataframe(output_df, '../parsed_data/filtered_tip_data.feather')
