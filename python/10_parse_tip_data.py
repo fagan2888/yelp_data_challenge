@@ -47,7 +47,7 @@ def norm_corpus(document):
         
     # make tokenised text one string
     norm_doc = " ".join(doc_stem)
-    
+
 
     return norm_doc
 
@@ -63,7 +63,6 @@ def review_vector(norm_doc):
     # loop through each string i.e. review in the df column
     review_keyword_list = []
     doc = nltk.word_tokenize(norm_doc)
-    print doc
 
     # create tuple for each word in list: (word, tag)
     token_category = nltk.pos_tag(doc)  
