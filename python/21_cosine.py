@@ -80,6 +80,7 @@ for i in range(0,len(pittsburgh['text'])):
 
 pittsburgh_matrix = pd.DataFrame(cosine_matrix_pittsburgh)
 pittsburgh_matrix = pittsburgh_matrix.reset_index(drop=True)
+print 'matrix done'
 
 cosim_pittsburgh = pd.concat([pittsburgh,pittsburgh_matrix], axis=1)
 cosim_pittsburgh.to_pickle('../parsed_data/cosim_pittsburgh.pkl')
