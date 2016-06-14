@@ -8,7 +8,7 @@ Parse Yelp review data
 import re
 import nltk
 import pandas as pd
-#import feather
+import feather
 
 from collections import Counter
 from nltk.tokenize import RegexpTokenizer
@@ -17,8 +17,8 @@ from nltk.stem import SnowballStemmer
 
 
 # Read review data file into a pandas dataframe
-#read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
-read_df = pd.read_pickle('../parsed_data/filtered_review_data.pkl')
+read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
+#read_df = pd.read_pickle('../parsed_data/filtered_review_data.pkl')
 
 ## Helper functions to normalise and vectorise text
 

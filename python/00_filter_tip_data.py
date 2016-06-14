@@ -3,7 +3,7 @@
 Filter Yelp tip data
 @author: MariaAthena
 """
-# little change
+
 # Output of this file has to be feather because parser can't handle anything else
 
 import pandas as pd
