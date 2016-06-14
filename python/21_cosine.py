@@ -13,7 +13,6 @@ from collections import Counter
 
 
 
-
 # Calculate the cosine similarity of two vectors 
 def similarity(vect1, vect2):
     numerator =  len(list(set(vect1) & set(vect2)))
