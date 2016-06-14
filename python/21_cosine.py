@@ -42,7 +42,7 @@ cosine_matrix_montreal = np.zeros((len(montreal['text']),len(montreal['text'])))
 for i in range(0,len(montreal['text'])):
     for j in range(0,len(montreal['text'])):
         cosine_matrix_montreal[i][j] = similarity(montreal['text'].values[i], montreal['text'].values[j])
-"""
+
 
 
 # EDINBURGH
@@ -63,4 +63,3 @@ for i in range(0,len(pittsburgh['text'])):
     for j in range(0,len(pittsburgh['text'])):
         cosine_matrix_pittsburgh[i][j] = similarity(pittsburgh['text'].values[i], pittsburgh['text'].values[j])
 
-"""
