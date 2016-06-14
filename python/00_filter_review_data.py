@@ -91,7 +91,7 @@ review_df = pd.read_json(review_json)
 
 
 # Only keep reviews with more than 3 stars, then drop the column
-review_df = review_df[read_df.stars > 3]
+review_df = review_df[review_df.stars > 3]
 review_df.drop('stars', axis=1, inplace=True)
 
 # Create column signifying data is 
