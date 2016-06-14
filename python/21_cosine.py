@@ -31,7 +31,7 @@ def similarity(vect1, vect2):
     
 # Read data file into a pandas dataframe
 #read_df = feather.read_dataframe('../parsed_data/parsed_tip_data.feather', 'rb')
-cosine_df =  pd.read_pickle('../parsed_data/clean.pkl')
+cosine_df =  pd.read_pickle('../parsed_data/all_parsed_data.pkl')
 
 
 
