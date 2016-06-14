@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # change filename to file from maria
-#cluster_montreal =  pd.read_pickle('../parsed_data/index_montreal.pkl')
+cluster_montreal =  pd.read_pickle('../parsed_data/index_montreal.pkl')
 
 
 # MONTREAL
@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 # make date column index
 cluster_montreal = cluster_montreal.set_index(['date'])
 
-"""
+
 # perform groupby, summinng up dummies for count
 monthly_montreal = pd.DataFrame.groupby(cluster_montreal,
                                by=[cluster_montreal.index.year, 
@@ -27,7 +27,7 @@ monthly_montreal = pd.DataFrame.groupby(cluster_montreal,
                                                     
 monthly_montreal_df = pd.DataFrame(monthly_montreal)               
 monthly_montreal_df.columns = ['indices_sum']
-"""
+
 
 
 x = monthly_montreal_df['indices_sum'].values.tolist()
