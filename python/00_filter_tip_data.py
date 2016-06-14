@@ -15,15 +15,15 @@ with open('../data/yelp_academic_dataset_tip.json', 'rb') as f:
 	tip_data = f.readlines()
 
 # Read business data file into a python array
-with open('../data/yelp_academic_dataset_tip.json', 'rb') as f:
+with open('../data/yelp_academic_dataset_business.json', 'rb') as f:
 	bus_data = f.readlines()
 
 
 # remove the trailing "\n" from each line
-tip_data = map(lambda x: x.rstrip(), bus_data)
+tip_data = map(lambda x: x.rstrip(), tip_data)
 bus_data = map(lambda x: x.rstrip(), bus_data)
 # put individual business JSON objects into list
-tip_json = "[" + ','.join(bus_data) + "]"
+tip_json = "[" + ','.join(tip_data) + "]"
 bus_json = "[" + ','.join(bus_data) + "]"
 
 
@@ -93,9 +93,7 @@ bus_df = bus_df[['business_id', 'latitude', 'longitude', 'name',
 # Join business info onto tip data frame
 output_df = pd.merge(tip_df, 
 	bus_df, 
-	left_on='business_id',
-	right_on='business_id', 
-	how='left')
+	on = 'business_id')
 
 # Filter taking only data point from food_drink selling businesses
 output_df = output_df[output_df.food_drink > 0]
