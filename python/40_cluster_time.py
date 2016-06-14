@@ -30,7 +30,7 @@ monthly_montreal_df.columns = ['indices_sum']
 """
 
 
-x = monthly_montreal_df['indices'].values.tolist()
+x = monthly_montreal_df['indices_sum'].values.tolist()
 y = range(1,len(monthly_montreal_df))
 
 
