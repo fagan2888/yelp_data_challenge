@@ -8,10 +8,6 @@ Created on Tue Jun 14 13:07:19 2016
 # Prepare environment and load data ------------------------------------------
 import pandas as pd
 import numpy as np
-import nltk
-import re
-import feather
-
 
 from collections import Counter
 
@@ -53,7 +49,7 @@ cosim_montreal = pd.concat([montreal,montreal_matrix], axis=1)
 cosim_montreal.to_pickle('../parsed_data/cosim_montreal.pkl')
 print 'pkl written'
 
-"""
+
 # EDINBURGH
 edinburgh = cosine_df[cosine_df['city']== 'Edinburgh']
 edinburgh = edinburgh.reset_index(drop=True)
@@ -69,6 +65,8 @@ edinburgh_matrix = edinburgh_matrix.reset_index(drop=True)
 
 cosim_edinburgh = pd.concat([edinburgh,edinburgh_matrix], axis=1)
 
+cosim_edinburgh.to_pickle('../parsed_data/cosim_edinburgh.pkl')
+print 'pkl written'
 
 
 # PITTSBURGH
@@ -85,4 +83,5 @@ pittsburgh_matrix = pd.DataFrame(cosine_matrix_pittsburgh)
 pittsburgh_matrix = pittsburgh_matrix.reset_index(drop=True)
 
 cosim_pittsburgh = pd.concat([pittsburgh,pittsburgh_matrix], axis=1)
-"""
+cosim_pittsburgh.to_pickle('../parsed_data/cosim_pittsburgh.pkl')
+print 'pkl written'
