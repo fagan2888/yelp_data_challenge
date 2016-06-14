@@ -89,10 +89,15 @@ def is_food_drink(business_categories):
 bus_df = pd.read_json(bus_json)
 review_df = pd.read_json(review_json)
 
+
+# Only keep reviews with more than 3 stars, then drop the column
+review_df = review_df[read_df.stars > 3]
+review_df.drop('stars', axis=1, inplace=True)
+
 # Create column signifying data is 
 bus_df['food_drink'] = bus_df.categories.apply(lambda x: is_food_drink(x))
 bus_df = bus_df[['business_id', 'latitude', 'longitude', 'name', 
-'city', 'review_count', 'food_drink']]
+'city', 'review_count', 'stars', 'food_drink']]
 
 # Join business info onto review data frame
 output_df = pd.merge(review_df, 
