@@ -6,7 +6,6 @@ Filter Yelp review data
 """
 
 import pandas as pd
-import json
 import feather
 
 
@@ -20,10 +19,10 @@ with open('../data/yelp_academic_dataset_business.json', 'rb') as f:
 
 
 # remove the trailing "\n" from each line
-review_data = map(lambda x: x.rstrip(), bus_data)
+review_data = map(lambda x: x.rstrip(), review_data)
 bus_data = map(lambda x: x.rstrip(), bus_data)
 # put individual business JSON objects into list
-review_json = "[" + ','.join(bus_data) + "]"
+review_json = "[" + ','.join(review_data) + "]"
 bus_json = "[" + ','.join(bus_data) + "]"
 
 
@@ -86,17 +85,21 @@ def is_food_drink(business_categories):
     return is_food_drink
 
 
+# Create dataframe
+bus_df = pd.read_json(bus_json)
+review_df = pd.read_json(review_json)
+
 # Create column signifying data is 
 bus_df['food_drink'] = bus_df.categories.apply(lambda x: is_food_drink(x))
 bus_df = bus_df[['business_id', 'latitude', 'longitude', 'name', 
-'city', 'stars', 'review_count', 'food_drink']]
+'city', 'review_count', 'food_drink']]
 
 # Join business info onto review data frame
 output_df = pd.merge(review_df, 
 	bus_df, 
-	left_on='business_id',
-	right_on='business_id', 
-	how='left')
+	on='business_id')
+
+
 
 # Filter taking only data point from food_drink selling businesses
 output_df = output_df[output_df.food_drink > 0]

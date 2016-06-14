@@ -20,7 +20,7 @@ from nltk.stem import SnowballStemmer
 
 
 # Read data file into a pandas dataframe
-tip_df = feather.read_dataframe('../parsed_data/filtered_tip_data.feather', 'rb')
+read_df = feather.read_dataframe('../parsed_data/filtered_tip_data.feather', 'rb')
 
 
 ## Helper functions to normalise and vectorise text
@@ -81,12 +81,11 @@ def review_vector(norm_doc):
     
     return review_vector
 
-
+# Only keep reviews with more than 3 stars
+read_df = read_df[read_df.stars > 3]
 
 # Normalise and vectorise tip column in datafram
-output_df = bus_df.ix[:,['business_id', 'user_id', 'date', 'text', 
-                            'latitude', 'longitude', 'name', 'city', 
-                            'stars', 'review_count', 'food_drink']]
+output_df = read_df.ix[:,['business_id', 'user_id', 'date', 'text']]
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
 output_df.text = output_df.text.apply(lambda x: review_vector(x))

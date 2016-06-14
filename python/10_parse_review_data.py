@@ -9,7 +9,6 @@ Parse Yelp review data
 import pandas as pd
 import numpy as np
 import feather
-import json
 import re
 import nltk
 
@@ -20,7 +19,7 @@ from nltk.stem import SnowballStemmer
 
 
 # Read review data file into a pandas dataframe
-review_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
+read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
 
 
 ## Helper functions to normalise and vectorise text
@@ -83,10 +82,10 @@ def review_vector(norm_doc):
 
 
 # Only keep reviews with more than 3 stars
-bus_df = bus_df[bus_df.stars > 3]
+read_df = read_df[read_df.stars > 3]
 
 # Normalise and vectorise tip column in datafram
-output_df = bus_df.ix[:,['business_id', 'user_id', 'date', 'stars', 'votes', 'text']]
+output_df = read_df.ix[:,['business_id', 'user_id', 'date', 'stars', 'votes', 'text']]
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "tip text normalised, next: vectorise"
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
