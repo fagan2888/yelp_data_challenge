@@ -83,9 +83,6 @@ def review_vector(norm_doc):
     return review_vector
 
 
-# Only keep businesses with more than 3 stars
-read_df = read_df[read_df.stars > 3]
-
 # Normalise and vectorise tip column in datafram
 output_df = read_df.ix[:,['business_id', 
                           'user_id', 
@@ -98,6 +95,7 @@ output_df = read_df.ix[:,['business_id',
                           
 output_df.text = output_df.text.apply(lambda x: norm_corpus(x))
 print "review text normalised, next: vectorise"
+
 output_df.text = output_df.text.apply(lambda x: review_vector(x))
 print "review text vectorised"
 

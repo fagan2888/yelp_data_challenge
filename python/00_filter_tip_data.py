@@ -102,6 +102,10 @@ bus_df = bus_df[['business_id',
                  'review_count',
                  'food_drink']]
 
+
+# Only keep businesses with more than 3 stars
+bus_df = bus_df[bus_df.stars > 3]
+
 # Join business info onto tip data frame
 output_df = pd.merge(tip_df, 
 	bus_df, 
