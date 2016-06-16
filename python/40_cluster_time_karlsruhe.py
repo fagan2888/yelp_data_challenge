@@ -9,40 +9,40 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import datetime
 
-cluster_montreal =  pd.read_pickle('../parsed_data/indexed_montreal.pkl')
+cluster_karlsruhe =  pd.read_pickle('../parsed_data/indexed_karlsruhe.pkl')
 
-cluster_montreal = cluster_montreal.set_index(['date'])
-months = len(pd.DataFrame.groupby(cluster_montreal,
-                                   by=[cluster_montreal.index.year, 
-                                       cluster_montreal.index.month]))
+cluster_karlsruhe = cluster_karlsruhe.set_index(['date'])
+months = len(pd.DataFrame.groupby(cluster_karlsruhe,
+                                   by=[cluster_karlsruhe.index.year, 
+                                       cluster_karlsruhe.index.month]))
                                      
-# MONTREAL
+# karlsruhe
                                      
 plot_x=[];
 plot_y =[];
 colors = ['r', 'g', 'y', '#d11141', '#00b159', '#00aedb','#f37735', '#ffc425']
-for i in range(0,len(cluster_montreal['kmean_index'].unique())):
+for i in range(0,len(cluster_karlsruhe['kmean_index'].unique())):
     print i
 
 
     # To read in file
-    cluster_montreal =  pd.read_pickle('../parsed_data/indexed_montreal.pkl')
+    cluster_karlsruhe =  pd.read_pickle('../parsed_data/indexed_karlsruhe.pkl')
     
     # To group by same month in year make date column index
-    cluster_montreal = cluster_montreal.set_index(['date'])
-    cluster_montreal = cluster_montreal[cluster_montreal.kmean_index == i]
+    cluster_karlsruhe = cluster_karlsruhe.set_index(['date'])
+    cluster_karlsruhe = cluster_karlsruhe[cluster_karlsruhe.kmean_index == i]
      
     # To perform groupby, summinng up cluster indices per month
-    monthly_montreal = pd.DataFrame.groupby(cluster_montreal,
-                                   by=[cluster_montreal.index.year, 
-                                       cluster_montreal.index.month], sort = True)['kmean_index'].count()
-    #print monthly_montreal
+    monthly_karlsruhe = pd.DataFrame.groupby(cluster_karlsruhe,
+                                   by=[cluster_karlsruhe.index.year, 
+                                       cluster_karlsruhe.index.month], sort = True)['kmean_index'].count()
+    #print monthly_karlsruhe
                                                       
-    monthly_montreal_df = pd.DataFrame(monthly_montreal)               
-    monthly_montreal_df.columns = ['indices_sum']
-    #print monthly_montreal_df.head()
+    monthly_karlsruhe_df = pd.DataFrame(monthly_karlsruhe)               
+    monthly_karlsruhe_df.columns = ['indices_sum']
+    #print monthly_karlsruhe_df.head()
 
-    y = monthly_montreal_df['indices_sum'].values.tolist()
+    y = monthly_karlsruhe_df['indices_sum'].values.tolist()
     #print y
     
     # To plot all clusters later    
@@ -50,8 +50,8 @@ for i in range(0,len(cluster_montreal['kmean_index'].unique())):
     
     
     x = []
-    for j in range(0,len(monthly_montreal)):
-        x.append(datetime.datetime(monthly_montreal.index[j][0],monthly_montreal.index[j][1],1))
+    for j in range(0,len(monthly_karlsruhe)):
+        x.append(datetime.datetime(monthly_karlsruhe.index[j][0],monthly_karlsruhe.index[j][1],1))
     #print x
 
     # To plot all clusters later

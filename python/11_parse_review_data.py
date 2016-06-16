@@ -20,6 +20,14 @@ from nltk.stem import SnowballStemmer
 read_df = feather.read_dataframe('../parsed_data/filtered_review_data.feather', 'rb')
 #read_df = pd.read_pickle('../parsed_data/filtered_review_data.pkl')
 
+
+# Only keep data from three cities that are to be analysed
+read_df  = read_df[(
+	read_df.city == 'Glendale') | (
+	read_df.city == 'Karlsruhe') | (
+	read_df.city == 'Edinburgh')]
+
+
 ## Helper functions to normalise and vectorise text
 
 # Convert all words to lowercase, remove punctuation, tokenise and stem

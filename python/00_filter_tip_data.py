@@ -114,12 +114,6 @@ output_df = pd.merge(tip_df,
 # Filter taking only data point from food_drink selling businesses
 output_df = output_df[output_df.food_drink > 0]
 output_df.drop('food_drink', axis=1, inplace=True)
-
-# Only keep data from three cities that are to be analysed
-output_df  = output_df[(
-	output_df.city == 'Montreal') | (
-	output_df.city == 'Pittsburgh') | (
-	output_df.city == 'Edinburgh')]
  
 
  

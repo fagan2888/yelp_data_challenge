@@ -19,8 +19,8 @@ from scipy.spatial.distance import cdist
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
-# df = pd.read_pickle('../parsed_data/cosim_montreal.pkl')
- df = pd.read_pickle('../parsed_data/cosim_pittsburgh.pkl')
+df = pd.read_pickle('../parsed_data/cosim_glendale.pkl')
+# df = pd.read_pickle('../parsed_data/cosim_karlsruhe.pkl')
 # df = pd.read_pickle('../parsed_data/cosim_edinburgh.pkl')
 
 
@@ -38,4 +38,4 @@ df['kmean_index'] = k_means.labels_
 output_df = df[['business_id', 'text', 'date', 'city', 'latitude', 'longitude', 'kmean_index']]
 
 # Output parsed data to feather format file
-output_df.to_pickle('../parsed_data/indexed_pittsburgh.pkl')
+output_df.to_pickle('../parsed_data/indexed_glendale.pkl')
